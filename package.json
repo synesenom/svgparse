@@ -1,0 +1,37 @@
+{
+  "name": "svgparse",
+  "version": "0.0.1",
+  "description": "Library for parsing SVG objects.",
+  "main": "svgparse.min.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "jasmine": "^2.8.0",
+    "mocha": "^3.5.0",
+    "uglify-js": "^3.0.20"
+  },
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://synesenom@github.com/synesenom/svgparse.git"
+  },
+  "keywords": [
+    "svg",
+    "css",
+    "parse",
+    "test",
+    "generate"
+  ],
+  "author": "Enys Mones <enys.mones@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/synesenom/svgparse/issues"
+  },
+  "homepage": "https://synesenom.github.io/dice/",
+  "dependencies": {
+    "jasmine": "^2.8.0"
+  }
+}
