@@ -1,6 +1,6 @@
 var assert = require('assert');
 var utils = require('../test/test-utils').test_uils;
-var core = require('../src/gen').gen;
+var core = require('../src/core').core;
 
 var TRIALS = 1;
 var LAPS = 1000;
@@ -13,7 +13,7 @@ function add(dist, value) {
 }
 
 describe('svgparse', function() {
-    describe('gen', function() {
+    describe('core', function() {
         describe('float', function () {
             it('should return an array of floats uniformly distributed in (min, max)', function() {
                 utils.trials(function() {
