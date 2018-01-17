@@ -65,9 +65,9 @@
          * @returns {(number|Array)} Single float or array of random floats.
          */
         function float(min, max, n) {
-            if (arguments.length == 0)
+            if (arguments.length === 0)
                 return r(0, 1);
-            if (arguments.length == 1)
+            if (arguments.length === 1)
                 return r(0, min);
             return some(function () {
                 return r(min, max);
@@ -87,7 +87,7 @@
          * @returns {(number|Array)} Single integer or array of random integers.
          */
         function int(min, max, n) {
-            if (arguments.length == 1)
+            if (arguments.length === 1)
                 return Math.floor(r(0, min + 1));
             return some(function () {
                 return Math.floor(r(min, max + 1));
@@ -105,7 +105,7 @@
          * If array is invalid, null pointer is returned.
          */
         function choice(values, n) {
-            if (values === null || values === undefined || values.length == 0)
+            if (values === null || values === undefined || values.length === 0)
                 return null;
             return some(function () {
                 return values[Math.floor(r(0, values.length))];
@@ -122,7 +122,7 @@
          * @returns {(string|Array)} Random character if k is not given or less than 2, an array of random characters otherwise.
          */
         function char(string, n) {
-            if (string === null || string === undefined || string.length == 0)
+            if (string === null || string === undefined || string.length === 0)
                 return "";
             return some(function () {
                 return string.charAt(Math.floor(r(0, string.length)));
@@ -133,7 +133,7 @@
          * Shuffles an array in-place using the Fisher--Yates algorithm.
          *
          * @method shuffle
-         * @memberOf svgparse.gen.core
+         * @memberOf svgparse.core
          * @param {Array} values Array to shuffle.
          * @return {Array} The shuffled array.
          */

@@ -1,9 +1,14 @@
 /**
- * Module for generating CSS objects.
+ * Module for generating SVG content objects.
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/SVG/Content_type
  *
- * @module css
+ * @module content
  * @memberOf svgparse
  * @author Enys Mones (enys.mones@gmail.com)
+ * TODO add all possible CSS value types
+ * TODO add SVG class (migrate from old dice module)
+ * TODO add unit test
+ * TODO separate generators from parsers
  */
 (function (global, factory) {
     if (typeof exports === "object" && typeof module !== "undefined") {
@@ -16,47 +21,50 @@
 } (this, (function (exports) {
     "use strict";
 
-    var core = exports.core;
-    exports.css = (function() {
+    if (typeof exports === "object")
+        var core = require('./core').core;
+    exports.content = (function() {
         /**
-         * Class describing a generated CSS content.
+         * Class describing a generated SVG content.
          * The class contains the original object and the string representation.
          *
-         * @class CSSContent
-         * @memberOf svgparse.css
+         * @class SVGContent
+         * @memberOf svgparse.content
          * @property {object} o Object corresponding to the CSS content.
          * @property {string} s String representation of the CSS content.
          * @constructor
          */
-        function CSSContent(obj, str) {
+        function SVGContent(obj, str) {
             return {o: obj, s: str};
         }
 
+        function angle() {
+            var = 
+        }
+
         /**
-         * Generates a random CSS integer.
+         * Generates a random integer.
          *
          * @method integer
-         * @memberOf svgparse.css
-         * @returns {CSSContent} Random CSS integer.
+         * @memberOf svgparse.content
+         * @returns {SVGContent} Random integer.
          */
         function integer() {
-            var s = core.char("+- ") + core.int(10);
-            return this.CSSContent(
-                parseInt(s),
-                s.trim()
-            );
+            var s = core.int(-2147483648, 2147483647);
+            return this.SVGContent(s, s+"");
         }
 
         /**
          * Generates a random CSS number.
          *
          * @method number
-         * @memberOf dice.css
-         * @returns {CSSContent} Random CSS number.
+         * @memberOf svgparse.content
+         * @returns {SVGContent} Random CSS number.
+         * TODO fix range according to specification
          */
         function number() {
             var s = core.char("+- ") + core.coin(0.5, core.int(100), "") + "." + core.int(100);
-            return this.CSSContent(
+            return this.SVGContent(
                 parseFloat(s),
                 s.trim()
             );
@@ -66,17 +74,18 @@
          * Generates a random CSS length.
          *
          * @method length
-         * @memberOf dice.css
-         * @returns {CSSContent} Random CSS length.
+         * @memberOf svgparse.content
+         * @returns {SVGContent} Random CSS length.
+         * TODO follow specification
          */
         function length() {
             var s = core.coin(0.5, core.int(100), "") + "." + core.int(100);
-            if (parseFloat(s) != 0) {
+            if (parseFloat(s) !== 0) {
                 s += core.choice(["em", "ex", "px", "in", "cm", "mm", "pt", "pc", "%"]);
             } else {
                 s = "0";
             }
-            return this.CSSContent(
+            return this.SVGContent(
                 parseFloat(s),
                 s.trim()
             );
@@ -86,8 +95,9 @@
          * Generates a random CSS opacity-value.
          *
          * @method opacityValue
-         * @memberOf dice.css
-         * @returns {CSSContent} Random CSS opacityValue.
+         * @memberOf svgparse.content
+         * @returns {SVGContent} Random CSS opacityValue.
+         * TODO follow specification
          */
         function opacityValue() {
             var s = core.choice([
@@ -95,7 +105,7 @@
                 core.int(9) + "." + core.int(1, 1000) + core.char("Ee") + core.int(-10, -1),
                 core.char(" 0") + "." + core.int(1, 1000)
             ]);
-            return this.CSSContent(
+            return this.SVGContent(
                 parseFloat(s),
                 s.trim()
             );
@@ -105,8 +115,9 @@
          * Generates a random CSS color.
          *
          * @method color
-         * @memberOf dice.css
-         * @returns {CSSContent} Random CSS color.
+         * @memberOf svgparse.content
+         * @returns {SVGContent} Random CSS color.
+         * TODO follow specification
          */
         function color() {
             var o = {
@@ -117,7 +128,7 @@
 
             // 6 digit hex
             if (Math.random() < 1/5) {
-                return this.CSSContent(
+                return this.SVGContent(
                     o,
                     "#" + Math.floor(o.r/16).toString(16) + (o.r%16).toString(16)
                     + Math.floor(o.g/16).toString(16) + (o.g%16).toString(16)
@@ -131,21 +142,21 @@
                     g: Math.floor(o.g/16),
                     b: Math.floor(o.b/16)
                 };
-                return this.CSSContent(
+                return this.SVGContent(
                     o,
                     "#" + o.r.toString(16) + o.g.toString(16) + o.b.toString(16)
                 );
             }
             // rgb with integers
             if (Math.random() < 1/3) {
-                return this.CSSContent(
+                return this.SVGContent(
                     o,
                     "rgb(" + o.r + "," + o.g + "," + o.b + ")"
                 );
             }
             // rgb with percentages
             if (Math.random() < 1/2) {
-                return this.CSSContent(
+                return this.SVGContent(
                     o,
                     "rgb(" + Math.floor(o.r/2.55) + "%," + Math.floor(o.g/2.55) + "%," + Math.floor(o.b/2.55) + "%)"
                 );
@@ -192,7 +203,7 @@
                     "#C0C0C0", "#87CEEB", "#6A5ACD", "#708090", "#708090", "#FFFAFA", "#00FF7F", "#4682B4",
                     "#D2B48C", "#008080", "#D8BFD8", "#FF6347", "#40E0D0", "#EE82EE", "#F5DEB3", "#FFFFFF",
                     "#F5F5F5", "#FFFF00", "#9ACD32"][index].replace('#', '');
-                return this.CSSContent(
+                return this.SVGContent(
                     {r: parseInt(c[0] + c[1], 16), g: parseInt(c[2] + c[3], 16), b: parseInt(c[4] + c[5], 16)},
                     s
                 );
@@ -200,7 +211,7 @@
         }
 
         return {
-            CSSContent: CSSContent,
+            SVGContent: SVGContent,
             integer: integer,
             number: number,
             length: length,
